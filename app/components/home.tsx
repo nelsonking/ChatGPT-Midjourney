@@ -24,6 +24,7 @@ import {
 import { SideBar } from "./sidebar";
 import { useAppConfig } from "../store/config";
 import { AuthPage } from "./auth";
+import AuthRouter from "./authRouter";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
@@ -121,7 +122,7 @@ function Screen() {
         }`
       }
     >
-      {isAuth ? (
+      {isAuth || isHome? (
         <>
           <AuthPage />
         </>
@@ -131,11 +132,21 @@ function Screen() {
 
           <div className={styles["window-content"]} id={SlotID.AppBody}>
             <Routes>
-              <Route path={Path.Home} element={<Chat />} />
-              <Route path={Path.NewChat} element={<NewChat />} />
-              <Route path={Path.Masks} element={<MaskPage />} />
-              <Route path={Path.Chat} element={<Chat />} />
-              <Route path={Path.Settings} element={<Settings />} />
+              <Route path={Path.NewChat} element={
+                <AuthRouter><NewChat /></AuthRouter>
+              } />
+
+              <Route path={Path.Masks} element={
+                <AuthRouter><MaskPage /></AuthRouter>
+              } />
+
+              <Route path={Path.Chat} element={
+                <AuthRouter><Chat /></AuthRouter>
+              } />
+
+              <Route path={Path.Settings} element={
+                <AuthRouter><Settings /></AuthRouter>
+              } />
             </Routes>
           </div>
         </>
